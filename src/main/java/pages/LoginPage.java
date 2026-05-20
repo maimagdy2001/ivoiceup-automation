@@ -15,12 +15,14 @@ public class LoginPage {
     By loginBtn = By.xpath("//button[@type='submit' and normalize-space()='Login']");
     By otpField = By.cssSelector("input[formcontrolname='otp']");
     By verifyBtn = By.xpath("//button[@type='submit' and normalize-space()='Verify']");
+    By accountDropdown = By.id("org");
 
+    // لقطة زرار الـ Submit
+    By submitBtn = By.xpath("//button[@type='submit' and normalize-space()='Submit']");
     public LoginPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(20));
     }
-
     public void login(String user, String pass) {
         wait.until(ExpectedConditions.visibilityOfElementLocated(username)).sendKeys(user);
         driver.findElement(password).sendKeys(pass);
@@ -41,5 +43,11 @@ public class LoginPage {
                 ExpectedConditions.elementToBeClickable(locator));
 
         element.click();
+    }
+    public void selectAccountAndSubmit(String accountName) {
+        WebElement selectElement = wait.until(ExpectedConditions.visibilityOfElementLocated(accountDropdown));
+        Select select = new Select(selectElement);
+        select.selectByVisibleText(accountName);
+        safeClick(submitBtn);
     }
 }
